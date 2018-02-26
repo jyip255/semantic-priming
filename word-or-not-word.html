@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="stylesheet.css" type="text/css">
         
         <div id="app">
-            <h1 v-if="showPrompt"> {{ scrambleNum }} {{tempWord}} {{groupNum}}</h1>
+            <h1 v-if="showPrompt"> {{tempWord}} </h1>
             <h1 v-if="showResult"> Time: {{elapsedTime}} ms</h1>
             <button class="button" v-if="preGame" v-on:click="startGame">Start/Next</button>
             <button class="button" v-if="inGame" v-on:click="choseScrambled">Scrambled</button>
@@ -68,42 +68,167 @@
                     {id: 14, text: 'license'}, {id: 15, text: 'maintenance'},
                     {id: 16, text: 'millennium'}, {id: 17, text: 'neighbor'},
                     {id: 18, text: 'occurrence'}, {id: 19, text: 'possession'},
-                    ]
+                ],
+                bank3: [
+                    {id: 0, text: 'bus'}, {id: 1, text: 'school'},
+                    {id: 2, text: 'exam'}, {id: 3, text: 'notes'},
+                    {id: 4, text: 'class'}, {id: 5, text: 'google'},
+                    {id: 6, text: 'paper'}, {id: 7, text: 'word'},
+                    {id: 8, text: 'student'}, {id: 9, text: 'essay'},
+                    {id: 10, text: 'homework'}, {id: 11, text: 'lecture'},
+                    {id: 12, text: 'library'}, {id: 13, text: 'files'},
+                    {id: 14, text: 'major'}, {id: 15, text: 'test'},
+                    {id: 16, text: 'book'}, {id: 17, text: 'quiz'},
+                    {id: 18, text: 'pencil'}, {id: 19, text: 'computer'},
+                    {id: 20, text: 'pen'}, {id: 21, text: 'grades'},
+                    {id: 22, text: 'hall'}, {id: 23, text: 'lecture'},
+                    {id: 24, text: 'dorm'}, {id: 25, text: 'course'},
+                    {id: 26, text: 'college'}, {id: 27, text: 'dean'},
+                    {id: 28, text: 'study'}, {id: 29, text: 'project'}
+                ],
+                bank4: [
+                    {id: 0, text: 'protractor'}, {id: 1, text: 'librarian'},
+                    {id: 2, text: 'calculator'}, {id: 3, text: 'corridor'},
+                    {id: 4, text: 'cafeteria'}, {id: 5, text: 'gymnasium'},
+                    {id: 6, text: 'principal'}, {id: 7, text: 'classmates'},
+                    {id: 8, text: 'professor'}, {id: 9, text: 'calculus'},
+                    {id: 10, text: 'semester'}, {id: 11, text: 'attention'},
+                    {id: 12, text: 'dictionary'}, {id: 13, text: 'custodian'},
+                    {id: 14, text: 'thesaurus'}, {id: 15, text: 'knowledge'},
+                    {id: 16, text: 'mathematics'}, {id: 17, text: 'auditorium'},
+                    {id: 18, text: 'psychology'}, {id: 19, text: 'detention'},
+                ],
+                
             },
             methods: {
                 startGame: function () {
                     if (this.initialGrouping == false) {
                         this.groupNum = Math.floor(Math.random() * 4) + 1;
                         this.initialGrouping = true;
+                        if (this.groupNum == 2 || this.groupNum == 4) {
+                            this.numEntries = 19;
+                        }
                     }
-                    this.showPrompt = true;
-                    this.showResult = false;
-                    this.chosen = Math.floor(Math.random() * this.numEntries);
-                    this.showScramble = true;
-                    this.scrambleNum = Math.floor(Math.random() * 2) + 1;
-                    this.start = new Date().getTime();
-                    if (this.numEntries == 0) {
-                        if (this.scrambleNum == 2) {
-                            this.tempWord = this.bank1[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                    if (this.groupNum == 1) {
+                        this.showPrompt = true;
+                        this.showResult = false;
+                        this.chosen = Math.floor(Math.random() * this.numEntries);
+                        this.showScramble = true;
+                        this.scrambleNum = Math.floor(Math.random() * 2) + 1;
+                        this.start = new Date().getTime();
+                        if (this.numEntries == 0) {
+                            if (this.scrambleNum == 2) {
+                                this.tempWord = this.bank1[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                            }
+                            else {
+                                this.tempWord = this.bank1[this.chosen].text;
+                            }
+                            this.preGame = false;
+                            this.inGame = false;
                         }
                         else {
-                            this.tempWord = this.bank1[this.chosen].text;
+                            this.inGame = true;
+                            if (this.scrambleNum == 2) {
+                                this.tempWord = this.bank1[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                            }
+                            else {
+                                this.tempWord = this.bank1[this.chosen].text;
+                            }
+                            this.bank1.splice(this.chosen, 1);
+                            this.numEntries--;
                         }
-                        this.preGame = false;
-                        this.inGame = false;
+                        this.start = new Date().getTime();
                     }
-                    else {
-                        this.inGame = true;
-                        if (this.scrambleNum == 2) {
-                            this.tempWord = this.bank1[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                    else if (this.groupNum == 2) {
+                        this.showPrompt = true;
+                        this.showResult = false;
+                        this.chosen = Math.floor(Math.random() * this.numEntries);
+                        this.showScramble = true;
+                        this.scrambleNum = Math.floor(Math.random() * 2) + 1;
+                        this.start = new Date().getTime();
+                        if (this.numEntries == 0) {
+                            if (this.scrambleNum == 2) {
+                                this.tempWord = this.bank2[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                            }
+                            else {
+                                this.tempWord = this.bank2[this.chosen].text;
+                            }
+                            this.preGame = false;
+                            this.inGame = false;
                         }
                         else {
-                            this.tempWord = this.bank1[this.chosen].text;
+                            this.inGame = true;
+                            if (this.scrambleNum == 2) {
+                                this.tempWord = this.bank2[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                            }
+                            else {
+                                this.tempWord = this.bank2[this.chosen].text;
+                            }
+                            this.bank2.splice(this.chosen, 1);
+                            this.numEntries--;
                         }
-                        this.bank1.splice(this.chosen, 1);
-                        this.numEntries--;
+                        this.start = new Date().getTime();
                     }
-                    this.start = new Date().getTime();
+                    if (this.groupNum == 3) {
+                        this.showPrompt = true;
+                        this.showResult = false;
+                        this.chosen = Math.floor(Math.random() * this.numEntries);
+                        this.showScramble = true;
+                        this.scrambleNum = Math.floor(Math.random() * 2) + 1;
+                        this.start = new Date().getTime();
+                        if (this.numEntries == 0) {
+                            if (this.scrambleNum == 2) {
+                                this.tempWord = this.bank3[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                            }
+                            else {
+                                this.tempWord = this.bank3[this.chosen].text;
+                            }
+                            this.preGame = false;
+                            this.inGame = false;
+                        }
+                        else {
+                            this.inGame = true;
+                            if (this.scrambleNum == 2) {
+                                this.tempWord = this.bank3[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                            }
+                            else {
+                                this.tempWord = this.bank3[this.chosen].text;
+                            }
+                            this.bank3.splice(this.chosen, 1);
+                            this.numEntries--;
+                        }
+                        this.start = new Date().getTime();
+                    }
+                    else if (this.groupNum == 4) {
+                        this.showPrompt = true;
+                        this.showResult = false;
+                        this.chosen = Math.floor(Math.random() * this.numEntries);
+                        this.showScramble = true;
+                        this.scrambleNum = Math.floor(Math.random() * 2) + 1;
+                        this.start = new Date().getTime();
+                        if (this.numEntries == 0) {
+                            if (this.scrambleNum == 2) {
+                                this.tempWord = this.bank4[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                            }
+                            else {
+                                this.tempWord = this.bank4[this.chosen].text;
+                            }
+                            this.preGame = false;
+                            this.inGame = false;
+                        }
+                        else {
+                            this.inGame = true;
+                            if (this.scrambleNum == 2) {
+                                this.tempWord = this.bank4[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                            }
+                            else {
+                                this.tempWord = this.bank4[this.chosen].text;
+                            }
+                            this.bank4.splice(this.chosen, 1);
+                            this.numEntries--;
+                        }
+                        this.start = new Date().getTime();
+                    }
                 },
                 reset: function() {
                     this.preGame = true;
