@@ -9,11 +9,12 @@
         <link rel="stylesheet" href="stylesheet.css" type="text/css">
         
         <div id="app">
-            <ol>
-                <div v-for="(item, index) in bank1">
-                    <h2> {{item.text}} {{scrambleRandom()}} {{scrambleWord(item.text)}} </h2>
-                </div>
-            </ol>
+            <h1 v-if="showPrompt"> {{ scrambleNum }} {{tempWord}} {{groupNum}}</h1>
+            <h1 v-if="showResult"> Time: {{elapsedTime}} ms</h1>
+            <button class="button" v-if="preGame" v-on:click="startGame">Start/Next</button>
+            <button class="button" v-if="inGame" v-on:click="choseScrambled">Scrambled</button>
+            <button class="button" v-if="inGame" v-on:click="choseScrambled">Not Scrambled</button>
+            <button class="button" v-on:click="reset">Reset</button>
         </div>
         
     </body>
@@ -24,7 +25,21 @@
         var app = new Vue({
             el: '#app',
             data: {
+                initialGrouping: false,
+                groupNum: 0,
                 scrambleNum: 1,
+                showPrompt: false,
+                showScramble: false,
+                showResult: false,
+                preGame: true,
+                inGame: false,
+                numEntries: 29,
+                chosen: 0,
+                tempWord: 'hello',
+                showTime: false,
+                start: 0,
+                end: 0,
+                elapsedTime: 0,
                 bank1: [
                     {id: 0, text: 'the'}, {id: 1, text: 'and'},
                     {id: 2, text: 'for'}, {id: 3, text: 'are'},
@@ -40,22 +55,68 @@
                     {id: 22, text: 'now'}, {id: 23, text: 'old'},
                     {id: 24, text: 'see'}, {id: 25, text: 'two'},
                     {id: 26, text: 'way'}, {id: 27, text: 'who'},
-                    {id: 28, text: 'did'}
-                ]
+                    {id: 28, text: 'did'}, {id: 29, text: 'get'}
+                ],
+                bank2: [
+                    {id: 0, text: 'acquire'}, {id: 1, text: 'accommodate'},
+                    {id: 2, text: 'believe'}, {id: 3, text: 'conscience'},
+                    {id: 4, text: 'consensus'}, {id: 5, text: 'discipline'},
+                    {id: 6, text: 'existence'}, {id: 7, text: 'foreign'},
+                    {id: 8, text: 'grateful'}, {id: 9, text: 'guarentee'},
+                    {id: 10, text: 'hierarchy'}, {id: 11, text: 'independent'},
+                    {id: 12, text: 'intelligence'}, {id: 13, text: 'kernel'},
+                    {id: 14, text: 'license'}, {id: 15, text: 'maintenance'},
+                    {id: 16, text: 'millennium'}, {id: 17, text: 'neighbor'},
+                    {id: 18, text: 'occurrence'}, {id: 19, text: 'possession'},
+                    ]
             },
             methods: {
-                scrambleRandom: function() {
-                    scrambleNum = Math.floor(Math.random() * 2) + 1;
-                    return scrambleNum;
-                },
-                scrambleWord: function(str) {
-                    if ((scrambleNum == 2)) {
-                        var shuffled = str.split('').sort(function(){return 0.5-Math.random()}).join('');
-                        return shuffled;
+                startGame: function () {
+                    if (this.initialGrouping == false) {
+                        this.groupNum = Math.floor(Math.random() * 4) + 1;
+                        this.initialGrouping = true;
+                    }
+                    this.showPrompt = true;
+                    this.showResult = false;
+                    this.chosen = Math.floor(Math.random() * this.numEntries);
+                    this.showScramble = true;
+                    this.scrambleNum = Math.floor(Math.random() * 2) + 1;
+                    this.start = new Date().getTime();
+                    if (this.numEntries == 0) {
+                        if (this.scrambleNum == 2) {
+                            this.tempWord = this.bank1[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                        }
+                        else {
+                            this.tempWord = this.bank1[this.chosen].text;
+                        }
+                        this.preGame = false;
+                        this.inGame = false;
                     }
                     else {
-                        return str;
+                        this.inGame = true;
+                        if (this.scrambleNum == 2) {
+                            this.tempWord = this.bank1[this.chosen].text.split('').sort(function(){return 0.5-Math.random()}).join('');
+                        }
+                        else {
+                            this.tempWord = this.bank1[this.chosen].text;
+                        }
+                        this.bank1.splice(this.chosen, 1);
+                        this.numEntries--;
                     }
+                    this.start = new Date().getTime();
+                },
+                reset: function() {
+                    this.preGame = true;
+                    this.inGame = false;
+                    this.betweenGame = false;
+                    window.location.reload();
+                },
+                choseScrambled: function() {
+                    this.end = new Date().getTime();
+                    this.inGame = false;
+                    this.showResult = true;
+                    this.showPrompt = false;
+                    this.elapsedTime = this.end - this.start;
                 }
             }
         })
