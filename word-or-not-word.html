@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <title>Word or not word</title>
+    </head>
+    
+    <body>
+        <link rel="stylesheet" href="stylesheet.css" type="text/css">
+        
+        <div id="app">
+            <ol>
+                <div v-for="(item, index) in bank1">
+                    <h2> {{item.text}} {{scrambleRandom()}} {{scrambleWord(item.text)}} </h2>
+                </div>
+            </ol>
+        </div>
+        
+    </body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                scrambleNum: 1,
+                bank1: [
+                    {id: 0, text: 'the'}, {id: 1, text: 'and'},
+                    {id: 2, text: 'for'}, {id: 3, text: 'are'},
+                    {id: 4, text: 'but'}, {id: 5, text: 'not'},
+                    {id: 6, text: 'you'}, {id: 7, text: 'all'},
+                    {id: 8, text: 'any'}, {id: 9, text: 'can'},
+                    {id: 10, text: 'her'}, {id: 11, text: 'was'},
+                    {id: 12, text: 'one'}, {id: 13, text: 'our'},
+                    {id: 14, text: 'out'}, {id: 15, text: 'day'},
+                    {id: 16, text: 'has'}, {id: 17, text: 'him'},
+                    {id: 18, text: 'his'}, {id: 19, text: 'how'},
+                    {id: 20, text: 'man'}, {id: 21, text: 'new'},
+                    {id: 22, text: 'now'}, {id: 23, text: 'old'},
+                    {id: 24, text: 'see'}, {id: 25, text: 'two'},
+                    {id: 26, text: 'way'}, {id: 27, text: 'who'},
+                    {id: 28, text: 'did'}
+                ]
+            },
+            methods: {
+                scrambleRandom: function() {
+                    scrambleNum = Math.floor(Math.random() * 2) + 1;
+                    return scrambleNum;
+                },
+                scrambleWord: function(str) {
+                    if ((scrambleNum == 2)) {
+                        var shuffled = str.split('').sort(function(){return 0.5-Math.random()}).join('');
+                        return shuffled;
+                    }
+                    else {
+                        return str;
+                    }
+                }
+            }
+        })
+    </script>
+    
+</html>
