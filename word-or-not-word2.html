@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <title>Word or not word</title>
+    </head>
+    
+    <body>
+        <link rel="stylesheet" href="stylesheet.css" type="text/css">
+        
+        <div id="app">
+            <h1 v-if="showPrompt"> {{tempWord}} </h1>
+            <h1 v-if="showResult"> Time: {{elapsedTime}} ms</h1>
+            <button class="button" v-if="preGame" v-on:click="startGame">Start/Next</button>
+            <button class="button" v-if="inGame" v-on:click="choseScrambled">Scrambled</button>
+            <button class="button" v-if="inGame" v-on:click="choseScrambled">Not Scrambled</button>
+            <button class="button" v-on:click="reset">Reset</button>
+        </div>
+        
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                initialGrouping: false,
+                groupNum: 0,
+                scrambleNum: 1,
+                showPrompt: false,
+                showScramble: false,
+                showResult: false,
+                preGame: true,
+                inGame: false,
+                numEntries: 29,
+                chosen: 0,
+                tempWord: 'hello',
+                showTime: false,
+                start: 0,
+                end: 0,
+                elapsedTime: 0,
+                banks: [{
+                    name: 'bank1',
+                    words: [
+                        {id: 0, text: ''},
+                    ]
+                },
+                {
+                    name: 'bank2',
+                    words: [
+                        {id: 0, text: ''},
+                    ]
+                }
+                ]
+            }
+        })
+    </script>
