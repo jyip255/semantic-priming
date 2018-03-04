@@ -12,8 +12,8 @@
             <h1 v-if="showPrompt"> {{tempWord}} </h1>
             <h1 v-if="showResult"> Time: {{elapsedTime}} ms</h1>
             <button class="button" v-if="preGame" v-on:click="startGame">Start/Next</button>
-            <button class="button" v-if="inGame" v-on:click="choseScrambled">Scrambled</button>
-            <button class="button" v-if="inGame" v-on:click="choseScrambled">Not Scrambled</button>
+            <button class="button" v-if="inGame" v-on:click="choseNotWord">Word</button>
+            <button class="button" v-if="inGame" v-on:click="choseWord">Not Word</button>
             <button class="button" v-on:click="reset">Reset</button>
         </div>
         
@@ -43,16 +43,132 @@
                 banks: [{
                     name: 'bank1',
                     words: [
-                        {id: 0, text: ''},
+                        {text: 'the', isWord: true}, {text: 'ayd', isWord: false},
+                        {text: 'for', isWord: true}, {text: 'gte', isWord: false},
+                        {text: 'are', isWord: true}, {text: 'sah', isWord: false},
+                        {text: 'but', isWord: true}, {text: 'imh', isWord: false},
+                        {text: 'not', isWord: true}, {text: 'ish', isWord: false},
+                        {text: 'you', isWord: true}, {text: 'hwo', isWord: false},
+                        {text: 'all', isWord: true}, {text: 'nma', isWord: false},
+                        {text: 'any', isWord: true}, {text: 'ewn', isWord: false},
+                        {text: 'can', isWord: true}, {text: 'wno', isWord: false},
+                        {text: 'her', isWord: true}, {text: 'ese', isWord: false},
+                        {text: 'was', isWord: true}, {text: 'ldo', isWord: false},
+                        {text: 'one', isWord: true}, {text: 'wya', isWord: false},
+                        {text: 'our', isWord: true}, {text: 'idd', isWord: false},
+                        {text: 'out', isWord: true}, {text: 'adn', isWord: false},
+                        {text: 'who', isWord: true}, {text: 'atm', isWord: false},
                     ]
                 },
                 {
                     name: 'bank2',
                     words: [
-                        {id: 0, text: ''},
+                        {text: 'acquire', isWord: true}, {text: 'agrornta', isWord: false},
+                        {text: 'accommodate', isWord: true}, {text: 'rftsoe', isWord: false},
+                        {text: 'believe', isWord: true}, {text: 'pihpsnesa', isWord: false},
+                        {text: 'conscience', isWord: true}, {text: 'getrheto', isWord: false},
+                        {text: 'consensus', isWord: true}, {text: 'spsoisneos', isWord: false},
+                        {text: 'discipline', isWord: true}, {text: 'nnohctnala', isWord: false},
+                        {text: 'existence', isWord: true}, {text: 'nriartes', isWord: false},
+                        {text: 'foreign', isWord: true}, {text: 'bhegrnoi', isWord: false},
+                        {text: 'grateful', isWord: true}, {text: 'tnenacenima', isWord: false},
+                        {text: 'guarantee', isWord: true}, {text: 'nlnlmuiemi', isWord: false},
+                        {text: 'hierarchy', isWord: true}, {text: 'crnecocrue', isWord: false},
+                        {text: 'independent', isWord: true}, {text: 'plureesa', isWord: false},
+                        {text: 'intelligence', isWord: true}, {text: 'pyhmasyt', isWord: false},
+                        {text: 'kernel', isWord: true}, {text: 'ivpmlsuie', isWord: false},
+                        {text: 'license', isWord: true}, {text: 'scfpialireu', isWord: false},
+                    ]
+                },
+                {
+                    name: 'bank3',
+                    words: [
+                        {text: 'bus', isWord: true}, {text: 'ande', isWord: false},
+                        {text: 'exam', isWord: true}, {text: 'otense', isWord: false},
+                        {text: 'class', isWord: true}, {text: 'ohcosl', isWord: false},
+                        {text: 'paper', isWord: true}, {text: 'dorw', isWord: false},
+                        {text: 'student', isWord: true}, {text: 'eysas', isWord: false},
+                        {text: 'homework', isWord: true}, {text: 'izqu', isWord: false},
+                        {text: 'library', isWord: true}, {text: 'ttse', isWord: false},
+                        {text: 'major', isWord: true}, {text: 'ilfes', isWord: false},
+                        {text: 'book', isWord: true}, {text: 'radgse', isWord: false},
+                        {text: 'pencil', isWord: true}, {text: 'pjerotc', isWord: false},
+                        {text: 'pen', isWord: true}, {text: 'rusoce', isWord: false},
+                        {text: 'hall', isWord: true}, {text: 'gloego', isWord: false},
+                        {text: 'dorm', isWord: true}, {text: 'ltrucee', isWord: false},
+                        {text: 'college', isWord: true}, {text: 'pltaop', isWord: false},
+                        {text: 'study', isWord: true}, {text: 'xtet', isWord: false},
+                       ]
+                },
+                {
+                    name: 'bank4',
+                    words: [
+                        {text: 'protactor', isWord: true}, {text: 'bgalrea', isWord: false},
+                        {text: 'calculator', isWord: true}, {text: 'dcuatenoi', isWord: false},
+                        {text: 'cafeteria', isWord: true}, {text: 'efrecenre', isWord: false},
+                        {text: 'principal', isWord: true}, {text: 'cgyoiloso', isWord: false},
+                        {text: 'professor', isWord: true}, {text: 'tspetiaonme', isWord: false},
+                        {text: 'semester', isWord: true}, {text: 'tntaaenoit', isWord: false},
+                        {text: 'dictionary', isWord: true}, {text: 'adcmaicse', isWord: false},
+                        {text: 'thesaurus', isWord: true}, {text: 'scerhaer', isWord: false},
+                        {text: 'mathematics', isWord: true}, {text: 'dtusoacin', isWord: false},
+                        {text: 'psychology', isWord: true}, {text: 'nwegkedol', isWord: false},
+                        {text: 'librarian', isWord: true}, {text: 'dirimuatua', isWord: false},
+                        {text: 'corridor', isWord: true}, {text: 'dnetentio', isWord: false},
+                        {text: 'gymnasium', isWord: true}, {text: 'pirmeextne', isWord: false},
+                        {text: 'classmates', isWord: true}, {text: 'snitvuyeir', isWord: false},
+                        {text: 'calculus', isWord: true}, {text: 'gmadiar', isWord: false},
                     ]
                 }
                 ]
+            },
+            methods: {
+                startGame: function() {
+                    if (this.initialGrouping == false) {
+                        this.groupNum = Math.floor(Math.random() * 4) +1;
+                        this.initialGrouping = true;
+                    }
+                    this.showPrompt = true;
+                    this.showResult = false;
+                    this.chosen = Math.floor(Math.random() * this.numEntries);
+                    this.showScramble = true;
+                    this.scrambleNum = Math.floor(Math.random() * 2) + 1;
+                    this.start = new Date().getTime();
+                    if (this.numEntries == 0) {
+                        this.tempWord = this.banks[this.groupNum].words[this.chosen].text;
+                        this.preGame = false;
+                        this.inGame = false;
+                    }
+                    else {
+                        this.inGame = true;
+                        this.tempWord = this.banks[this.groupNum].words[this.chosen].text;
+                        this.bank1.splice(this.chosen, 1);
+                        this.numEntries--;
+                    }
+                    this.start = new Date().getTime();
+                },
+                reset: function() {
+                    this.preGame = true;
+                    this.inGame = false;
+                    this.betweenGame = false;
+                    window.location.reload();
+                },
+                choseNotWord: function() {
+                    this.end = new Date().getTime();
+                    this.inGame = false;
+                    this.showResult = true;
+                    this.showPrompt = false;
+                    this.elapsedTime = this.end - this.start;
+                },
+                choseWord: function() {
+                    this.end = new Date().getTime();
+                    this.inGame = false;
+                    this.showResult = true;
+                    this.showPrompt = false;
+                    this.elapsedTime = this.end - this.start;
+                }
             }
         })
     </script>
+
+</html>
