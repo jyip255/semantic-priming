@@ -9,6 +9,10 @@
         <link rel="stylesheet" href="stylesheet.css" type="text/css">
         
         <div id="app">
+            <div v-if="showEnd" v-for="(item, index) in tempBank">
+                <p> Text:{{item.text}} Correct answer?:{{item.correct}} Time: {{item.time}} </p>
+            
+            </div>
             <h1 v-if="showPrompt"> {{tempWord}} </h1>
             <h1 v-if="showResult"> Time: {{elapsedTime}} ms</h1>
             <button class="button" v-if="preGame" v-on:click="startGame">Start/Next</button>
@@ -40,6 +44,26 @@
                 start: 0,
                 end: 0,
                 elapsedTime: 0,
+                counter: 0,
+                showEnd: false,
+                tempBank: [
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0},
+                    {text: '',  correct: false, time: 0}, {text: '', correct: false, time: 0}
+                    
+                ],
                 banks: [{
                     name: 'bank1',
                     words: [
@@ -57,7 +81,7 @@
                         {text: 'one', isWord: true}, {text: 'wya', isWord: false},
                         {text: 'our', isWord: true}, {text: 'idd', isWord: false},
                         {text: 'out', isWord: true}, {text: 'adn', isWord: false},
-                        {text: 'who', isWord: true}, {text: 'atm', isWord: false},
+                        {text: 'who', isWord: true}, {text: 'atm', isWord: false}
                     ]
                 },
                 {
@@ -77,7 +101,7 @@
                         {text: 'independent', isWord: true}, {text: 'plureesa', isWord: false},
                         {text: 'intelligence', isWord: true}, {text: 'pyhmasyt', isWord: false},
                         {text: 'kernel', isWord: true}, {text: 'ivpmlsuie', isWord: false},
-                        {text: 'license', isWord: true}, {text: 'scfpialireu', isWord: false},
+                        {text: 'license', isWord: true}, {text: 'scfpialireu', isWord: false}
                     ]
                 },
                 {
@@ -97,7 +121,7 @@
                         {text: 'hall', isWord: true}, {text: 'gloego', isWord: false},
                         {text: 'dorm', isWord: true}, {text: 'ltrucee', isWord: false},
                         {text: 'college', isWord: true}, {text: 'pltaop', isWord: false},
-                        {text: 'study', isWord: true}, {text: 'xtet', isWord: false},
+                        {text: 'study', isWord: true}, {text: 'xtet', isWord: false}
                        ]
                 },
                 {
@@ -117,7 +141,7 @@
                         {text: 'corridor', isWord: true}, {text: 'dnetentio', isWord: false},
                         {text: 'gymnasium', isWord: true}, {text: 'pirmeextne', isWord: false},
                         {text: 'classmates', isWord: true}, {text: 'snitvuyeir', isWord: false},
-                        {text: 'calculus', isWord: true}, {text: 'gmadiar', isWord: false},
+                        {text: 'calculus', isWord: true}, {text: 'gmadiar', isWord: false}
                     ]
                 }
                 ]
@@ -125,7 +149,7 @@
             methods: {
                 startGame: function() {
                     if (this.initialGrouping == false) {
-                        this.groupNum = Math.floor(Math.random() * 4) +1;
+                        this.groupNum = Math.floor(Math.random() * 4);
                         this.initialGrouping = true;
                     }
                     this.showPrompt = true;
@@ -138,12 +162,14 @@
                         this.tempWord = this.banks[this.groupNum].words[this.chosen].text;
                         this.preGame = false;
                         this.inGame = false;
+                        this.showEnd = true;
                     }
                     else {
                         this.inGame = true;
                         this.tempWord = this.banks[this.groupNum].words[this.chosen].text;
-                        this.bank1.splice(this.chosen, 1);
+                        this.banks[this.groupNum].words.splice(this.chosen, 1);
                         this.numEntries--;
+                        this.tempBank[this.counter].text = this.tempWord;
                     }
                     this.start = new Date().getTime();
                 },
@@ -155,17 +181,27 @@
                 },
                 choseNotWord: function() {
                     this.end = new Date().getTime();
+                    if (this.banks[this.groupNum].words[this.chosen].isWord == false) {
+                        this.tempBank[this.counter].correct = true;
+                    }
                     this.inGame = false;
                     this.showResult = true;
                     this.showPrompt = false;
                     this.elapsedTime = this.end - this.start;
+                    this.tempBank[this.counter].time = this.elapsedTime;
+                    this.counter++;
                 },
                 choseWord: function() {
                     this.end = new Date().getTime();
+                    if (this.banks[this.groupNum].words[this.chosen].isWord == true) {
+                        this.tempBank[this.counter].correct = true;
+                    }
                     this.inGame = false;
                     this.showResult = true;
                     this.showPrompt = false;
                     this.elapsedTime = this.end - this.start;
+                    this.tempBank[this.counter].time = this.elapsedTime;
+                    this.counter++;
                 }
             }
         })
