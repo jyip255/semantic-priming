@@ -11,8 +11,9 @@
         <div id="app">
             <div v-if="showEnd" v-for="(item, index) in tempBank">
                 <p> Text:{{item.text}} Correct answer?:{{item.correct}} Time: {{item.time}} </p>
-            
             </div>
+            <p v-if="showEnd"> Correct responses: {{numCorrect}}</p>
+            <p v-if="showEnd"> Incorrect responses: {{numIncorrect}}</p>
             <h1 v-if="showPrompt"> {{tempWord}} </h1>
             <h1 v-if="showResult"> Time: {{elapsedTime}} ms</h1>
             <button class="button" v-if="preGame" v-on:click="startGame">Start/Next</button>
@@ -44,6 +45,10 @@
                 start: 0,
                 end: 0,
                 elapsedTime: 0,
+                sumTime: 0,
+                avgTime: 0,
+                numCorrect: 0,
+                numIncorrect: 0,
                 counter: 0,
                 showEnd: false,
                 tempBank: [
@@ -160,6 +165,8 @@
                     this.start = new Date().getTime();
                     if (this.numEntries == 0) {
                         this.tempWord = this.banks[this.groupNum].words[this.chosen].text;
+                        this.banks[this.groupNum].words.splice(this.chosen, 1);
+                        this.tempBank[this.counter].text = this.tempWord;
                         this.preGame = false;
                         this.inGame = false;
                         this.showEnd = true;
@@ -183,6 +190,8 @@
                     this.end = new Date().getTime();
                     if (this.banks[this.groupNum].words[this.chosen].isWord == false) {
                         this.tempBank[this.counter].correct = true;
+                        this.numCorrect++;
+                        this.numIncorrect--;
                     }
                     this.inGame = false;
                     this.showResult = true;
@@ -190,11 +199,14 @@
                     this.elapsedTime = this.end - this.start;
                     this.tempBank[this.counter].time = this.elapsedTime;
                     this.counter++;
+                    this.numIncorrect++;
                 },
                 choseWord: function() {
                     this.end = new Date().getTime();
                     if (this.banks[this.groupNum].words[this.chosen].isWord == true) {
                         this.tempBank[this.counter].correct = true;
+                        this.numCorrect++;
+                        this.numIncorrect--;
                     }
                     this.inGame = false;
                     this.showResult = true;
@@ -202,6 +214,7 @@
                     this.elapsedTime = this.end - this.start;
                     this.tempBank[this.counter].time = this.elapsedTime;
                     this.counter++;
+                    this.numIncorrect++;
                 }
             }
         })
